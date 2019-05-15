@@ -7,10 +7,10 @@ use yii\base\Action;
 
 class RemoveAction extends Action
 {
-    public $uploadDir = '@webroot/upload';
+	public $uploadDir = '@webroot/upload';
 
-    public function run($fileName)
-    {
-        return (int)unlink(Yii::getAlias($this->uploadDir) . '/' . $fileName);
-    }
+	public function run($fileName)
+	{
+		return (int)unlink(Yii::getAlias($this->uploadDir) . '/' . $fileName);
+	}
 }
