@@ -8,6 +8,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\web\View;
 
 class DropZone extends Widget
 {
@@ -26,30 +27,36 @@ class DropZone extends Widget
 
 	protected $dropzoneName = 'dropzone';
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function init()
 	{
 		parent::init();
 
 		Html::addCssClass($this->htmlOptions, 'dropzone');
 		Html::addCssClass($this->messageOptions, 'dz-message');
-		$this->dropzoneName = 'dropzone_' . $this->id;
+		$this->dropzoneName = 'dropzone_'. $this->id;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	private function registerAssets()
 	{
 		DropZoneAsset::register($this->getView());
-		$this->getView()->registerJs('Dropzone.autoDiscover = false;');
+		$this->getView()->registerJs('Dropzone.autoDiscover = false;', View::POS_END);
 	}
 
 	protected function addFiles($files = [])
 	{
 		if (empty($files) === false) {
-			$this->view->registerJs('var files = ' . Json::encode($files));
-			$this->view->registerJs('for (var i=0; i<files.length; i++) {
-				' . $this->dropzoneName . '.emit("addedfile", files[i]);
-				' . $this->dropzoneName . '.emit("thumbnail", files[i], files[i]["thumbnail"]);
+			$this->getView()->registerJs('var files = ' . Json::encode($files), View::POS_END);
+			$this->getView()->registerJs('for (var i=0; i<files.length; i++) {
+				' . $this->dropzoneName . '.emit("addedfile", files[i]); 
+				if ("thumbnail" in files[i]) ' . $this->dropzoneName . '.emit("thumbnail", files[i], files[i]["thumbnail"]);
 				' . $this->dropzoneName . '.emit("complete", files[i]);
-			}');
+			}', View::POS_END);
 		}
 	}
 
@@ -65,21 +72,22 @@ class DropZone extends Widget
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function createDropzone()
 	{
 		$options = Json::encode($this->options);
-		$this->getView()->registerJs($this->dropzoneName . ' = new Dropzone("#' . $this->id . '", ' . $options . ');');
+		$this->getView()->registerJs('var '. $this->dropzoneName .' = new Dropzone("#'. $this->id .'", '. $options .');', View::POS_END);
 	}
 
 	public function run()
 	{
-		if (empty($this->name) && (!empty($this->model) && !empty($this->attribute))) {
+		if (empty($this->name) && (!empty($this->model) && !empty($this->attribute)))
 			$this->name = Html::getInputName($this->model, $this->attribute);
-		}
 
-		if (empty($this->url)) {
+		if (empty($this->url))
 			$this->url = Url::toRoute(['site/upload']);
-		}
 
 		$options = [
 			'url' => $this->url,
@@ -87,15 +95,13 @@ class DropZone extends Widget
 			'params' => [],
 		];
 
-		if (Yii::$app->request->enableCsrfValidation) {
+		if (Yii::$app->request->enableCsrfValidation)
 			$options['params'][Yii::$app->request->csrfParam] = Yii::$app->request->getCsrfToken();
-		}
 
-		if (!empty($this->message)) {
+		if (!empty($this->message))
 			$message = Html::tag('div', $this->message, $this->messageOptions);
-		} else {
+		else
 			$message = '';
-		}
 
 		$this->htmlOptions['id'] = $this->id;
 		$this->options = ArrayHelper::merge($this->options, $options);
