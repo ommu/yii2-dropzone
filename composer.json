@@ -1,9 +1,27 @@
 {
-	"name": "devgroup/yii2-dropzone",
+	"name": "ommu/yii2-dropzone",
 	"description": "Yii2 Dropzone widget",
 	"type": "yii2-extension",
-	"keywords": ["yii2", "dropzone", "upload"],
+	"keywords": [
+		"extension",
+		"dropzone",
+		"upload",
+		"multiple-upload",
+		"ommu",
+		"ommu-platform",
+		"yii2"
+	],
 	"license": "GPL-3.0+",
+	"homepage": "https://github.com/ommu/yii2-dropzone",
+	"support": {
+		"issues": "https://github.com/ommu/yii2-dropzone/issues",
+		"wiki": "https://github.com/ommu/yii2-dropzone/wiki",
+		"source": "https://github.com/ommu/yii2-dropzone"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ommu/yii2-dropzone.git"
+	},
 	"authors": [
 		{
 			"name": "Alexander Kozhevnikov",
@@ -16,6 +34,12 @@
 		{
 			"name": "Pavel Fedotov",
 			"email": "fps.06@mail.ru"
+		},
+		{
+			"name": "Putra Sudaryanto",
+			"email": "putra@sudaryanto.id",
+			"homepage": "https://sudaryanto.id",
+			"role": "Modifier"
 		}
 	],
 	"minimum-stability": "dev",
