@@ -14,13 +14,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist devgroup/yii2-dropzone "*"
+php composer.phar require --prefer-dist ommu/yii2-dropzone "*"
 ```
 
 or add
 
 ```
-"devgroup/yii2-dropzone": "*"
+"ommu/yii2-dropzone": "*"
 ```
 
 to the require section of your composer.json.
@@ -32,18 +32,35 @@ General Usage
 ```php
 use devgroup\dropzone\DropZone;
 
-DropZone::widget(
-    [
-        'name' => 'file', // input name or 'model' and 'attribute'
-        'url' => '', // upload url
-        'storedFiles' => [], // stores files
-        'eventHandlers' => [], // dropzone event handlers
-        'sortable' => true, // sortable flag
-        'sortableOptions' => [], // sortable options
-        'htmlOptions' => [], // container html options
-        'options' => [], // dropzone js options
-    ]
-)
+echo DropZone::widget([
+    'name' => 'file', // input name or 'model' and 'attribute'
+    'url' => '', // upload url
+    'storedFiles' => [], // stores files
+    'eventHandlers' => [], // dropzone event handlers
+    'sortable' => true, // sortable flag
+    'sortableOptions' => [], // sortable options
+    'htmlOptions' => [], // container html options
+    'options' => [], // dropzone js options
+]);
+```
+
+
+Input Form Usage
+-------------
+
+```php
+use devgroup\dropzone\DropZone;
+
+echo $form->field($model, "attribute")->widget(DropZone::className(), [
+    'name' => 'file', // input name or 'model' and 'attribute'
+    'url' => '', // upload url
+    'storedFiles' => [], // stores files
+    'eventHandlers' => [], // dropzone event handlers
+    'sortable' => true, // sortable flag
+    'sortableOptions' => [], // sortable options
+    'htmlOptions' => [], // container html options
+    'options' => [], // dropzone js options
+]); 
 ```
 
 you can also register `devgroup\dropzone\UploadAction` and `devgroup\dropzone\RemoveAction` actions in your controller
